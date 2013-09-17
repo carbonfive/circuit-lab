@@ -1,0 +1,11 @@
+{
+  "name": "c5-led-grid",
+  "description": "LED Grid Web Server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "jade": "0.35.x",
+    "request": "2.27.x"
+  }
+}

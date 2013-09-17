@@ -1,0 +1,22 @@
+!!! 5
+html
+  head
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    script(src='/bootstrap.min.js')
+    script(src='/led_grid.js')
+    script(src='/simulator.js')
+
+    link(rel='stylesheet', href='/bootstrap.min.css')
+    link(rel='stylesheet', href='/site.css')
+  body
+    .container
+      .row
+        .col-md-6#canvas-container
+          canvas#led-grid
+        .col-md-6
+          span.glyphicon.glyphicon-camera
+          = data
+          textarea(name='generator-fn')
+          input(name='url')
+          button#load-from-url Load from URL
+          button#update-generator Update Generator
