@@ -11,22 +11,41 @@ html
   body
     .container
       .row
-        .col-md-6#canvas-container
+        .col-sm-4
+          form.form-horizontal#grid-dimensions
+            .form-group
+              label.control-label.col-sm-4(for='grid-columns') Columns
+              .col-sm-8
+                input.form-control.input-sm#grid-columns(type='number')
+            .form-group
+              label.control-label.col-sm-4(for='grid-rows') Rows
+              .col-sm-8
+                input.form-control.input-sm#grid-rows(type='number')
+            .form-group
+              .col-sm-offset-4.col-sm-8
+                 button.btn.btn-primary.btn-sm(type='submit') Update Grid
+          form.form-horizontal#load-code
+            .form-group
+              label.control-label.col-sm-4(for='code-url') URL
+              .col-sm-8
+                input.form-control.input-sm#code-url(type='text' class='form-control' placeholder='https://gist.github.com/ingar/d11c1d55f5b92bb6321c/raw/2c844556f0e767257b93cd757057ff9676874b3e/generator.js')
+            .form-group
+              .col-sm-offset-4.col-sm-8
+                 button.btn.btn-primary.btn-sm(type='submit') Fetch Code
+
+          .row
+            .col-sm-offset-4.col-sm-8
+              button.btn.btn-danger#update-generator Load Code into Simulator
+
+        .col-sm-8#canvas-container
           canvas#led-grid
-        .col-md-6
-          span.glyphicon.glyphicon-camera
-          = data
-          textarea(name='generator-fn')
-          input(name='url')
-          button#load-from-url Load from URL
-          button#update-generator Update Generator
       .row
         .col-sm-4
         .col-sm-8
           pre#editor
 
     script(src="/src-min/ace.js")
-    script
+    script.
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/twilight");
       editor.getSession().setMode("ace/mode/javascript");

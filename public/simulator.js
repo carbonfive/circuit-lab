@@ -77,11 +77,21 @@ $(function() {
   var generateFn = generateGenerator('');
 
   function initUI() {
-    $('#load-from-url').on('click', function() {
-      var url = $('input[name=url]').val();
-      $.get('/proxy', { url: url }).then(function(data) {
+    $('form#load-code').on('submit', function(e) {
+      e.preventDefault();
+      $.get('/proxy', { url: $('#code-url').val() }).then(function(data) {
         editor.getSession().setValue(data);
       });
+    });
+
+    // Grid dimensions form
+    $('#grid-columns').val(gridCols);
+    $('#grid-rows').val(gridRows);
+    $('#grid-dimensions').on('submit', function(e) {
+      e.preventDefault();
+      gridCols = parseInt($('#grid-columns').val());
+      gridRows = parseInt($('#grid-rows').val());
+      resizeCanvas(true);
     });
 
     $('#update-generator').on('click', function() {
