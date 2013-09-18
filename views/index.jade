@@ -41,6 +41,21 @@ html
           canvas#led-grid
       .row
         .col-sm-4
+          h4 Write some code to update the LEDs
+          p It will be called with the following variables in scope:
+          dl
+            dt state
+            dd This is a JS object that you can use to store arbitrary state.
+            dt time
+            dd The current system time in ms.
+            dt rows
+            dd Number of rows in the LED grid
+            dt columns
+            dd Number of columns in the LED grid
+            dt grid
+            dd
+              | A JS array (Uint8Array) which is rows * columns long.  To illuminate a LED at column x and row y:
+              pre grid[ x * columns + y ] = 1
         .col-sm-8
           pre#editor
 
