@@ -43,7 +43,10 @@ var testFnStr = test.toString().replace(/function \w+\(.*?\) {/, '').replace(/}$
 */
 
 
+
 $(function() {
+
+  var editor = ace.edit('editor');
 
   var gridRows = 16;
   var gridCols = 32;
@@ -77,13 +80,13 @@ $(function() {
     $('#load-from-url').on('click', function() {
       var url = $('input[name=url]').val();
       $.get('/proxy', { url: url }).then(function(data) {
-        $('textarea[name=generator-fn]').val(data);
+        editor.getSession().setValue(data);
       });
     });
 
     $('#update-generator').on('click', function() {
       userState = {};
-      generateFn = generateGenerator($('textarea[name=generator-fn]').val());
+      generateFn = generateGenerator(editor.getSession().getValue());
     })
   }
 

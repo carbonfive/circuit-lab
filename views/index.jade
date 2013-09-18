@@ -20,3 +20,13 @@ html
           input(name='url')
           button#load-from-url Load from URL
           button#update-generator Update Generator
+      .row
+        .col-sm-4
+        .col-sm-8
+          pre#editor
+
+    script(src="/src-min/ace.js")
+    script
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/twilight");
+      editor.getSession().setMode("ace/mode/javascript");

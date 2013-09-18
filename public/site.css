@@ -1,3 +1,7 @@
 #led-grid {
   width: 100%;
 }
+
+#editor {
+  min-height: 600px;
+}
