@@ -1,16 +1,22 @@
+var b = require('bonescript');
+
 var MAX_WIDTH = 64;
 var MAX_HEIGHT = 64;
-var UPDATE_FREQUENCY = 100;
+var UPDATE_FREQUENCY = 20;
 
 var generatorFn = function() {};
 var buffer = new Uint8Array(MAX_WIDTH * MAX_HEIGHT);
-var rows = 8;
-var columns = 16;
+var rows = 4;
+var columns = 4;
 var userState = {};
-var curScanColumn = 0;
+var curColumn = 0;
+
+var columnPins = ['P9_13', 'P9_14', 'P9_15', 'P9_16'];
+var rowPins = ['P8_7', 'P8_8', 'P8_9', 'P8_10'];
 
 exports.updateGenerator = function(codeStr) {
   generatorFn = new Function('state', 'time', 'rows', 'columns', 'grid', codeStr);
+  userState = {};
   console.log('New generator function installed:');
   console.log(generatorFn.toString());
 };
@@ -29,13 +35,34 @@ function setRowState(idx, state) {
   // set line HI/LO for row idx
 }
 
-function lightEmUp() {
-  setColumnStates();
-  for (var row = 0; row < rows; row++) {
-    setRowState(row, buffer[row * columns + curScanColumn] != 0)
-  }
-  setTimeout(lightEmUp, 5);
+function clear() {
+  columnPins.forEach(function(col) {
+    b.pinMode(col, b.OUTPUT);
+    b.digitalWrite(col, b.HIGH);
+  });
+  rowPins.forEach(function(row) {
+    b.pinMode(row, b.OUTPUT);
+    b.digitalWrite(row, b.LOW);
+  });
 }
 
+function scan() {
+  clear()
+  lightColumn(curColumn);
+  setColumnStates();
+  for (var row = 0; row < rows; row++) {
+    setRowState(row, buffer[row * columns + curColumn] != 0)
+  }
+  curColumn = (curColumn + 1) % columns;
+}
+
+function lightColumn(colIdx) {
+  b.digitalWrite(columnPins[colIdx], b.LOW);
+  for (var row = 0; row < rows; row++) {
+    b.digitalWrite(rowPins[row], buffer[row * columns + colIdx] == 0 ? b.LOW : b.HIGH);
+  }
+}
+
+
 tick();
-lightEmUp();
+setInterval(scan, 5);
