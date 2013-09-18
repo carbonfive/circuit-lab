@@ -1,17 +1,17 @@
-# GoGaRuCo 2013 - Carbon Five Electronics Soldering Lab
+## Carbon Five Circuit Lab
 
-## BeagleBone setup (with default Angstrom distribution):
+### BeagleBone Black setup (with default Angstrom distribution)
 
-### Set the date (otherwise SSL wgets can fail)
+#### Set the date (otherwise SSL can fail)
     ntpdate time.apple.com
 
-### Change the Time Zone
+#### Change the time zone
     cd /etc
     rm ./localtime
     ln -s /usr/share/zoneinfo/America/Los_Angeles ./localtime
 
-### Get code and boot server
-    git clone git@github.com:ingar/circuit-lab.git
+#### Get code and boot server
+    git clone git@github.com:carbonfive/circuit-lab.git
     cd circuit-lab
     npm install
     node server.js
