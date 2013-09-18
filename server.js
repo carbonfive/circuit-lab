@@ -1,14 +1,19 @@
 var request = require('request');
 var express = require('express');
 var app = express();
+var driver = require('./led_driver');
 
-//app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-//app.set('view options', { layout: false });
+app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
   res.render('index', { data: 'hello world' });
+});
+
+app.post('/update_driver', function(req, res){
+  driver.updateGenerator(req.body.code);
+  res.json({ msg: 'Driver updated' });
 });
 
 app.get('/proxy', function(req, res) {

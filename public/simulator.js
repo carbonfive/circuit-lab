@@ -1,11 +1,6 @@
 'use strict';
 
-// LED at (x, y) is at grid[y * columns + x]
-// 0, 0 is upper left
-
 $(function() {
-  var editor = ace.edit('editor');
-
   var ledPanel = {
     setSize: function(rows, columns) {
       this.rows = rows;
@@ -13,7 +8,7 @@ $(function() {
       this.buf = new Uint8Array(rows * columns)
     }
   };
-  ledPanel.setSize(16, 32);
+  ledPanel.setSize(8, 16);
 
   var userState = {};
 
@@ -54,24 +49,26 @@ $(function() {
     $('#grid-dimensions').on('submit', function(e) {
       e.preventDefault();
       ledPanel.setSize(parseInt($('#grid-rows').val()), parseInt($('#grid-columns').val()));
+      userState = {};
       resizeCanvas(true);
     });
 
     $('#update-generator').on('click', function() {
       userState = {};
       generateFn = generateGenerator(editor.getSession().getValue());
-    })
+    });
+
+    $('#update-driver').on('click', function() {
+      $.post('/update_driver', { code: editor.getSession().getValue() });
+    });
   }
-
-  initUI();
-
 
   function tick() {
     generateFn(userState, new Date().getTime(), ledPanel.rows, ledPanel.columns, ledPanel.buf);
     grid.render();
-    setTimeout(tick, 20);
+    setTimeout(tick, 5);
   }
 
+  initUI();
   tick();
-
 });

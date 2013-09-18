@@ -1,11 +1,6 @@
 !!! 5
 html
   head
-    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
-    script(src='/bootstrap.min.js')
-    script(src='/led_grid.js')
-    script(src='/simulator.js')
-
     link(rel='stylesheet', href='/bootstrap.min.css')
     link(rel='stylesheet', href='/site.css')
   body
@@ -23,7 +18,7 @@ html
                 input.form-control.input-sm#grid-rows(type='number')
             .form-group
               .col-sm-offset-4.col-sm-8
-                 button.btn.btn-primary.btn-sm(type='submit') Update Grid
+                 button.btn.btn-primary.btn-sm(type='submit') Update Grid Size
           form.form-horizontal#load-code
             .form-group
               label.control-label.col-sm-4(for='code-url') URL
@@ -56,11 +51,21 @@ html
             dd
               | A JS array (Uint8Array) which is rows * columns long.  To illuminate a LED at column x and row y:
               pre grid[ x * columns + y ] = 1
+          button.btn.btn-danger#update-driver Load Code into Driver
         .col-sm-8
           pre#editor
+            | var idx = Math.floor(Math.random() * rows * columns);
+            | grid[idx] = 1 - grid[idx];
 
+
+    script(src='/jquery.min.js')
+    script(src='/bootstrap.min.js')
+    script(src='/led_grid.js')
+    script(src='/simulator.js')
     script(src="/src-min/ace.js")
     script.
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/twilight");
       editor.getSession().setMode("ace/mode/javascript");
+      editor.getSession().setTabSize(2);
+      editor.getSession().setUseSoftTabs(true);
