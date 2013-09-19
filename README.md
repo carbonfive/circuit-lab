@@ -15,3 +15,6 @@
     cd circuit-lab
     npm install
     node server.js
+
+Note, if you run into SSL issues, try setting the time:
+    ntpdate -b -s -u 0.us.pool.ntp.org
