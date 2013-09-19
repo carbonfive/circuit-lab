@@ -10,6 +10,9 @@
     rm ./localtime
     ln -s /usr/share/zoneinfo/America/Los_Angeles ./localtime
 
+#### Install gtk
+opkg install gtk+-dev
+
 #### Get code and boot server
     git clone git@github.com:carbonfive/circuit-lab.git
     cd circuit-lab
