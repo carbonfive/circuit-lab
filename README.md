@@ -10,8 +10,9 @@
     rm ./localtime
     ln -s /usr/share/zoneinfo/America/Los_Angeles ./localtime
 
-#### Install gtk
-opkg install gtk+-dev
+#### Install gtk and the python compiler
+    opkg install gtk+-dev
+    opkg install python-compiler
 
 #### Get code and boot server
     git clone git@github.com:carbonfive/circuit-lab.git
