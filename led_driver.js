@@ -1,10 +1,11 @@
 var fs = require('fs');
 var b = require('bonescript');
-var c5bone = ('./c5bone');
+var c5bone = require('./c5bone');
 
 var MAX_WIDTH = 64;
 var MAX_HEIGHT = 64;
 var UPDATE_FREQUENCY = 20;
+var SCAN_INTERVAL = 1;
 
 var generatorFn = function() {};
 var buffer = new Uint8Array(MAX_WIDTH * MAX_HEIGHT);
@@ -15,6 +16,7 @@ var curColumn = 0;
 
 var columnPins = ['P9_13', 'P9_14', 'P9_15', 'P9_16'];
 var rowPins = ['P8_7', 'P8_8', 'P8_9', 'P8_10'];
+var pins = {};
 
 function initPin(pin) {
   b.pinMode(pin, b.OUTPUT);
@@ -54,11 +56,9 @@ function tick() {
 
 function clear() {
   columnPins.forEach(function(col) {
-    pinMode(col, b.OUTPUT);
     digitalWrite(col, b.LOW);
   });
   rowPins.forEach(function(row) {
-    pinMode(row, b.OUTPUT);
     digitalWrite(row, b.LOW);
   });
 }
@@ -78,4 +78,4 @@ function lightColumn(colIdx) {
 
 init();
 tick();
-setInterval(scan, 5);
+setInterval(scan, SCAN_INTERVAL);
