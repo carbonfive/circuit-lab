@@ -1,6 +1,7 @@
 var fs = require('fs');
 var b = require('bonescript');
 var c5bone = require('./c5bone');
+var Canvas = require('canvas');
 
 var MAX_WIDTH = 64;
 var MAX_HEIGHT = 64;
@@ -13,6 +14,7 @@ var rows = 4;
 var columns = 4;
 var userState = {};
 var curColumn = 0;
+var canvas, ctx;
 
 var columnPins = ['P9_13', 'P9_14', 'P9_15', 'P9_16'];
 var rowPins = ['P8_7', 'P8_8', 'P8_9', 'P8_10'];
@@ -35,6 +37,15 @@ function init() {
   rowPins.forEach(function(pinName) {
     initPin(pinName);
   });
+  canvas = new Canvas(columns,rows);
+  ctx = canvas.getContext('2d');
+  ctx.setGrid = setGrid;
+}
+
+function setGrid(grid) {
+	var data = this.getImageData(0,0,columns,rows).data;
+	for (var i=0; i<data.length/4; i++)
+		grid[i] = data[i*4]/255 > .5 ? 1 : 0;
 }
 
 function digitalWrite(pin, value) {
@@ -42,14 +53,14 @@ function digitalWrite(pin, value) {
 };
 
 exports.updateGenerator = function(codeStr) {
-  generatorFn = new Function('state', 'time', 'rows', 'columns', 'grid', codeStr);
+  generatorFn = new Function('state', 'time', 'rows', 'columns', 'grid', 'ctx', codeStr);
   userState = {};
   console.log('New generator function installed:');
   console.log(generatorFn.toString());
 };
 
 function tick() {
-  generatorFn(userState, new Date().getTime(), rows, columns, buffer);
+  generatorFn(userState, new Date().getTime(), rows, columns, buffer, ctx);
   setTimeout(tick, UPDATE_FREQUENCY);
 }
 

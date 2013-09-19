@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "3.x",
     "jade": "0.35.x",
-    "request": "2.27.x"
+    "request": "2.27.x",
+    "canvas": "1.1.0"
   }
 }

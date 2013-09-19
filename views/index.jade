@@ -51,11 +51,17 @@ html
             dd
               | A JS array (Uint8Array) which is rows * columns long.  To illuminate a LED at column x and row y:
               pre grid[ x * columns + y ] = 1
+            dt ctx
+            dd
+              | A HTML5 canvas context you can use to draw on the LED array. Draw the areas you want to be lit in white and then call 
+              pre ctx.setGrid(grid) 
+              | to set the grid array.
           button.btn.btn-danger#update-driver Load Code into Driver
         .col-sm-8
           pre#editor
             | var idx = Math.floor(Math.random() * rows * columns);
             | grid[idx] = 1 - grid[idx];
+        canvas#play-canvas(style="display:none;")
 
 
     script(src='/jquery.min.js')
