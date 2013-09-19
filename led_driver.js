@@ -26,19 +26,11 @@ function tick() {
   setTimeout(tick, UPDATE_FREQUENCY);
 }
 
-function setColumnStates() {
-  // clear all columns
-  // set line HI/LO for curScanColumn
-}
-
-function setRowState(idx, state) {
-  // set line HI/LO for row idx
-}
 
 function clear() {
   columnPins.forEach(function(col) {
     b.pinMode(col, b.OUTPUT);
-    b.digitalWrite(col, b.HIGH);
+    b.digitalWrite(col, b.LOW);
   });
   rowPins.forEach(function(row) {
     b.pinMode(row, b.OUTPUT);
@@ -49,15 +41,11 @@ function clear() {
 function scan() {
   clear()
   lightColumn(curColumn);
-  setColumnStates();
-  for (var row = 0; row < rows; row++) {
-    setRowState(row, buffer[row * columns + curColumn] != 0)
-  }
   curColumn = (curColumn + 1) % columns;
 }
 
 function lightColumn(colIdx) {
-  b.digitalWrite(columnPins[colIdx], b.LOW);
+  b.digitalWrite(columnPins[colIdx], b.HIGH);
   for (var row = 0; row < rows; row++) {
     b.digitalWrite(rowPins[row], buffer[row * columns + colIdx] == 0 ? b.LOW : b.HIGH);
   }
